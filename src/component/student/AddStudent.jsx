@@ -1,25 +1,31 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import { baseUrl } from "../../constant/constants";
+import {useNavigate, useLocation} from "react-router-dom";
 
 function AddStudent(props) {
 
     let [student, setStudent]=useState({
         altPhone: "",
         dateOfbirth:"",
-        bloodGroup: "",
+        blood: "",
         email: "",
-        fathersName: "",
+        father: "",
         gender: "",
-        localGuardian: "",
-        mothersName: "",
+        guardian: "",
+        mother: "",
         name: "",
         phone: ""
     });
 
+    const navigate = useNavigate();
+    const location = useLocation();
+    const {notification}=location.state;
     //const [studentId,setStudentId] =useState('');
 
     useEffect(() => {
+        console.log("👿😈");
+        console.log(notification);
         if(!props.isNew && props.studentId) {
         axios.get(baseUrl+"student/"+props.studentId)
             .then((res) => {
@@ -52,7 +58,7 @@ function AddStudent(props) {
     }
 
     function Cancel() {
-        
+        navigate(-1);
     }
 
     function Delete() {
@@ -69,12 +75,12 @@ function AddStudent(props) {
             return {
                 altPhone: "",
                 dateOfbirth: "",
-                bloodGroup: "",
+                blood: "",
                 email: "",
-                fathersName: "",
+                father: "",
                 gender: "",
-                localGuardian: "",
-                mothersName: "",
+                guardian: "",
+                mother: "",
                 name: "",
                 phone: ""
             }
@@ -89,7 +95,7 @@ function AddStudent(props) {
                     <h3 className="mx-auto mx-5">{props.isNew ? 'Add New': 'Update'} Student</h3>
                 </div>
                 <div className="col">
-                    <button className="btn btn-outline-danger me-2" onClick={Cancel}>Cancel</button>
+                    <button className="btn btn-outline-danger me-2" onClick={()=>{Cancel()}}>Cancel</button>
                     <button className="btn btn-danger" onClick={Delete}>Delete</button>
                 </div>
             </div>
@@ -170,22 +176,22 @@ function AddStudent(props) {
                     <div className="row">
                     <div className="col mb-4">
                         <label htmlFor="gender">Gender</label>
-                            <input
-                                className="form-control"
-                                type="text"
-                                name="gender"
-                                onChange={handleChange}
-                                value={student.gender}
-                            />
+                        <input
+                            className="form-control"
+                            type="text"
+                            name="gender"
+                            onChange={handleChange}
+                            value={student.gender}
+                        />
                     </div>
                     <div className="col mx-4">
                         <label htmlFor="bloodGroup">Blood Group</label>
-                            <input
-                                className="form-control" type="text"
-                                name="bloodGroup"
-                                onChange={handleChange}
-                                value={student.bloodGroup}
-                                />
+                        <input
+                            className="form-control" type="text"
+                            name="bloodGroup"
+                            onChange={handleChange}
+                            value={student.blood}
+                            />
                     </div>
                     </div>
                     <div className="mb-4">
@@ -195,7 +201,7 @@ function AddStudent(props) {
                             className="form-control"
                             name="mothersName"
                             onChange={handleChange}
-                            value={student.mothersName}
+                            value={student.mother}
                             />
                     </div>
                     <div className="mb-4">
@@ -205,7 +211,7 @@ function AddStudent(props) {
                             className="form-control"
                             name="fathersName" 
                             onChange={handleChange}
-                            value={student.fathersName}
+                            value={student.father}
                             />
                     </div>
                     <div className="mb-4">
@@ -215,7 +221,7 @@ function AddStudent(props) {
                             className="form-control"
                             name="localGuardian"
                             onChange={handleChange}
-                            value={student.localGuardian}
+                            value={student.guardian}
                         />
                     </div>
                     <button className="btn btn-lg btn-success" onClick={onSubmit} type="submit">{props.isNew?'Save':'Update'}</button>
